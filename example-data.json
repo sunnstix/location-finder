@@ -1,18 +1,14 @@
-{
-    "tweets" : [
-
-        {
-            "number": 1,
-            "description": "example description",
-            "text": "example text",
-            "location": "michigan"
-        },
-        {
-            "number": 2,
-            "description": "example description 2",
-            "text": "example text 2",
-            "location": "wisconsin"
-        }
-        
-    ]
-}
+[
+    {
+        "number": 1,
+        "description": "example description",
+        "text": "example text",
+        "location": "michigan"
+    },
+    {
+        "number": 2,
+        "description": "example description 2",
+        "text": "example text 2",
+        "location": "wisconsin"
+    } 
+]

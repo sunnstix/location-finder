@@ -23,8 +23,17 @@ import re # to remove non-alphanumerics from strings
 #                   "vmi" --> invalid
 #                   "88.925" --> invalid
 
-# TIP: you may need to format your JSON file after running for clarity.
+# TIPs: 
+#  1. you may need to format your JSON file after running for clarity.
 #       ON VSCode for Mac: CMD + SHIFT + P, then type "Format Document", then enter
+#  2. I also had to allow my JSON file to be longer than 5000 lines. I set mine to 30,000
+
+
+
+# Result:
+#   There are 25,000 lines in the csv file. By running this, I was able to
+#   identify 20,000 lines by location.  These are more than enough to train
+#   and test our program.
 
 # globals
 states = ['alabama', 'alaska', 'arizona',
