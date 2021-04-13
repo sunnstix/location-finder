@@ -1,0 +1,14 @@
+{
+    "json_file": "data.json",
+    "batch_size": 64,
+    "patience": 5,
+    "model": {
+        "embed_dim": 100,
+        "hidden_nodes": 32,
+        "output nodes": 1,
+        "num_layers": 2,
+        "bidirection": true,
+        "dropout": 0.2,
+        "param_file": "model_params.pt"
+    }
+}
