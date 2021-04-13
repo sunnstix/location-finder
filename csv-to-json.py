@@ -72,6 +72,46 @@ stateInitials = {
     'va': states[45], 'wa': states[46], 'wv': states[47],
     'wi': states[48], 'wy': states[49]
 }
+# dictionary mimicing 0 indexed list below
+stateToNumber = {
+    'alabama': 0, 'alaska': 1, 'arizona': 2,
+    'arkansas': 3, 'california': 4, 'colorado': 5,
+    'conneticut': 6, 'delaware': 7, 'florida': 8,
+    'georgia': 9, 'hiwaii': 10, 'idaho': 11,
+    'illinois': 12, 'indiana': 13, 'iowa': 14,
+    'kansas': 15, 'kentucky': 16, 'louisiana': 17,
+    'maine': 18, 'maryland': 19, 'massachusets': 20,
+    'michigan': 21, 'minnesota': 22, 'mississippi': 23,
+    'missouri': 24, 'montana': 25, 'nebraska': 26,
+    'nevada': 27, 'new hampshire': 28, 'new jersey': 29,
+    'new mexico': 30, 'new york': 31, 'north carolina': 32,
+    'north dakota': 33, 'ohio': 34, 'oklahoma': 35,
+    'oregon': 36, 'pennsylvania': 37, 'rhode island': 38,
+    'south carolina': 39, 'south dakota': 40, 'tennesse': 41,
+    'texas': 42, 'utah': 43, 'vermont': 44,
+    'virginia': 45, 'washington': 46, 'west virginia': 47,
+    'wisconsin': 48, 'wyoming': 49
+}
+# List
+numberToState = [
+    'alabama', 'alaska', 'arizona',
+    'arkansas', 'california', 'colorado',
+    'conneticut', 'delaware', 'florida',
+    'georgia', 'hiwaii', 'idaho',
+    'illinois', 'indiana', 'iowa',
+    'kansas', 'kentucky', 'louisiana',
+    'maine', 'maryland', 'massachusets',
+    'michigan', 'minnesota', 'mississippi',
+    'missouri', 'montana', 'nebraska',
+    'nevada', 'new hampshire', 'new jersey',
+    'new mexico', 'new york', 'north carolina',
+    'north dakota', 'ohio', 'oklahoma',
+    'oregon', 'pennsylvania', 'rhode island',
+    'south carolina', 'south dakota', 'tennesse',
+    'texas', 'utah', 'vermont',
+    'virginia', 'washington', 'west virginia',
+    'wisconsin', 'wyoming'
+]
 
 def validateLocation(location: str) -> str:
     """ensures tweet has valid location. 
