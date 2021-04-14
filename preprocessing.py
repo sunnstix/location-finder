@@ -42,7 +42,6 @@ class PreProcess():
             preprocessor.OPT.SMILEY,
             preprocessor.OPT.NUMBER)
 
-
         #Clean tweet
         tweet_str = preprocessor.clean(tweet_str)
 
