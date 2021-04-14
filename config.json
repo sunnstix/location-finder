@@ -1,13 +1,14 @@
 {
     "json_file": "data.json",
+    "csv_file": "test.csv",
     "batch_size": 64,
     "patience": 5,
     "model": {
         "embed_dim": 100,
         "hidden_nodes": 32,
-        "output nodes": 1,
+        "output_nodes": 1,
         "num_layers": 2,
-        "bidirection": true,
+        "bidirection": 1,
         "dropout": 0.2,
         "param_file": "model_params.pt"
     }
