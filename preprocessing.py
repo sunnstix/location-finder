@@ -13,7 +13,7 @@ class PreProcess():
     #1 - clean hashtags, mentions, and numbers
     #2 - clean mentions and numbers
     #3 - clean hashtags and numbers
-    def tweet_preprocessor(self, tweet_str, mode):
+    def tweet_preprocessor(self, tweet_str, mode=1):
 
         #Set to lowercase
         tweet_str = tweet_str.lower()

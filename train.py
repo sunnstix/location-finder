@@ -1,4 +1,4 @@
-from dataloader import load, TXT, LBL, DEVICE
+from dataloader import DEVICE, TwitterData
 import torch
 from model import model
 from torch.nn import BCELoss
@@ -11,6 +11,7 @@ def count_parameters(model):
     return sum(p.numel() for p in model.parameters() if p.requires_grad)
 
 def computeCorrect(pred,labels):
+    pred = torch.max(pred,1)[1]
     correct = (torch.round(pred) == labels).float()
     return correct.sum(), len(labels)
 
@@ -78,13 +79,14 @@ def train(classifier, trainLoader, validLoader):
     print('Finished training!')
 
 if __name__ == "__main__":
-    trainIter, validIter = load(True)
-    classifier = model(len(TXT.vocab),config('model.embed_dim'),config('model.hidden_nodes'),config('model.output_nodes'),
-                        config('model.num_layers'),config('model.dropout'),config('model.bidirection'),TXT.vocab.vectors)
+    data = TwitterData()
+    trainIter, validIter = data.load(True)
+    classifier = model(len(data.txtField.vocab),config('model.embed_dim'),config('model.hidden_nodes'),config('model.output_nodes'),
+                        config('model.num_layers'),config('model.dropout'),config('model.bidirection'),data.txtField.vocab.vectors)
 
     print(classifier) #inspect model
 
-    print(f'The model has {count_parameters(model):,} trainable parameters')
+    print(f'The model has {count_parameters(classifier):,} trainable parameters')
 
     train(classifier,trainIter,validIter)
     

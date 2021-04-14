@@ -12,11 +12,11 @@ class model(nn.Module):
         self.lstm = nn.LSTM(embed_len, hidden_len, num_layers = num_layers, bidirectional = doubleD, dropout = dropout)
         self.fc = nn.Linear(hidden_len*2, output_len)
 
-        self.activate = nn.Sigmoid
+        self.activate = nn.Softmax
 
     def forward(self,txt,txt_length):
         embedTxt = self.embed(txt)
         packed = rnn.pack_padded_sequence(embedTxt,txt_length,batch_first=True)
         _, (hidden,cell) = self.lstm(packed)
-        dense = self.fc( torch.cat( (hidden[-2,:,:],hidden[-1,:,:]), dim = 1 ) )
+        dense = self.fc(hidden[-1])
         return self.activate(dense)
