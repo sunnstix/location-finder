@@ -42,8 +42,7 @@ class PreProcess():
         #Clean tweet
         tweet_str = preprocessor.clean(tweet_str)
 
-        return tweet_str
+        #Tokenize tweet
+        tweet_str = preprocessor.tokenize(tweet_str)
 
-test = PreProcess()
-
-print(test.tweet_preprocessor("@this is a #test lmao", 2))
+        return tweet_str.split()
