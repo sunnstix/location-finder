@@ -39,7 +39,7 @@ import re # to remove non-alphanumerics from strings
 states = ['alabama', 'alaska', 'arizona',
           'arkansas', 'california', 'colorado',
           'conneticut', 'delaware', 'florida',
-          'georgia', 'hiwaii', 'idaho',
+          'georgia', 'hawaii', 'idaho',
           'illinois', 'indiana', 'iowa',
           'kansas', 'kentucky', 'louisiana',
           'maine', 'maryland', 'massachusets',
@@ -77,7 +77,7 @@ stateToNumber = {
     'alabama': 0, 'alaska': 1, 'arizona': 2,
     'arkansas': 3, 'california': 4, 'colorado': 5,
     'conneticut': 6, 'delaware': 7, 'florida': 8,
-    'georgia': 9, 'hiwaii': 10, 'idaho': 11,
+    'georgia': 9, 'hawaii': 10, 'idaho': 11,
     'illinois': 12, 'indiana': 13, 'iowa': 14,
     'kansas': 15, 'kentucky': 16, 'louisiana': 17,
     'maine': 18, 'maryland': 19, 'massachusets': 20,
@@ -97,7 +97,7 @@ numberToState = [
     'alabama', 'alaska', 'arizona',
     'arkansas', 'california', 'colorado',
     'conneticut', 'delaware', 'florida',
-    'georgia', 'hiwaii', 'idaho',
+    'georgia', 'hawaii', 'idaho',
     'illinois', 'indiana', 'iowa',
     'kansas', 'kentucky', 'louisiana',
     'maine', 'maryland', 'massachusets',
@@ -111,6 +111,80 @@ numberToState = [
     'texas', 'utah', 'vermont',
     'virginia', 'washington', 'west virginia',
     'wisconsin', 'wyoming'
+]
+
+# east = 0 | west = 1
+stateToNumberEW = {
+    'alabama': 0, 'alaska': 1, 'arizona': 1,
+    'arkansas': 0, 'california': 1, 'colorado': 1,
+    'conneticut': 0, 'delaware': 0, 'florida': 0,
+    'georgia': 0, 'hawaii': 1, 'idaho': 1,
+    'illinois': 0, 'indiana': 0, 'iowa': 0,
+    'kansas': 1, 'kentucky': 0, 'louisiana': 0,
+    'maine': 0, 'maryland': 0, 'massachusets': 0,
+    'michigan': 0, 'minnesota': 0, 'mississippi': 0,
+    'missouri': 0, 'montana': 1, 'nebraska': 1,
+    'nevada': 1, 'new hampshire': 0, 'new jersey': 0,
+    'new mexico': 1, 'new york': 0, 'north carolina': 0,
+    'north dakota': 1, 'ohio': 0, 'oklahoma': 1,
+    'oregon': 1, 'pennsylvania': 0, 'rhode island': 0,
+    'south carolina': 0, 'south dakota': 1, 'tennesse': 0,
+    'texas': 1, 'utah': 1, 'vermont': 0,
+    'virginia': 0, 'washington': 1, 'west virginia': 0,
+    'wisconsin': 0, 'wyoming': 1
+}
+# List
+numberToStateEW = [
+    'east', 'west'
+]
+
+# north = 0 | south = 1
+stateToNumberNS = {
+    'alabama': 1, 'alaska': 0, 'arizona': 1,
+    'arkansas': 1, 'california': 1, 'colorado': 1,
+    'conneticut': 0, 'delaware': 1, 'florida': 1,
+    'georgia': 1, 'hawaii': 1, 'idaho': 0,
+    'illinois': 0, 'indiana': 0, 'iowa': 0,
+    'kansas': 1, 'kentucky': 1, 'louisiana': 1,
+    'maine': 0, 'maryland': 0, 'massachusets': 0,
+    'michigan': 0, 'minnesota': 0, 'mississippi': 1,
+    'missouri': 1, 'montana': 0, 'nebraska': 0,
+    'nevada': 1, 'new hampshire': 0, 'new jersey': 0,
+    'new mexico': 1, 'new york': 0, 'north carolina': 1,
+    'north dakota': 0, 'ohio': 0, 'oklahoma': 1,
+    'oregon': 0, 'pennsylvania': 0, 'rhode island': 0,
+    'south carolina': 1, 'south dakota': 1, 'tennesse': 1,
+    'texas': 1, 'utah': 1, 'vermont': 0,
+    'virginia': 1, 'washington': 0, 'west virginia': 1,
+    'wisconsin': 0, 'wyoming': 0
+}
+# List
+numberToStateNS = [
+    'north', 'south'
+]
+# west = 0 | midwest = 1 | south = 2 | northeast = 3
+stateToNumberRegion = {
+    'alabama': 2, 'alaska': 0, 'arizona': 0,
+    'arkansas': 2, 'california': 0, 'colorado': 0,
+    'conneticut': 3, 'delaware': 2, 'florida': 2,
+    'georgia': 2, 'hawaii': 0, 'idaho': 0,
+    'illinois': 1, 'indiana': 1, 'iowa': 1,
+    'kansas': 1, 'kentucky': 2, 'louisiana': 2,
+    'maine': 3, 'maryland': 2, 'massachusets': 3,
+    'michigan': 1, 'minnesota': 1, 'mississippi': 2,
+    'missouri': 1, 'montana': 0, 'nebraska': 1,
+    'nevada': 0, 'new hampshire': 3, 'new jersey': 3,
+    'new mexico': 0, 'new york': 3, 'north carolina': 2,
+    'north dakota': 1, 'ohio': 1, 'oklahoma': 2,
+    'oregon': 0, 'pennsylvania': 3, 'rhode island': 3,
+    'south carolina': 2, 'south dakota': 1, 'tennesse': 2,
+    'texas': 2, 'utah': 0, 'vermont': 3,
+    'virginia': 2, 'washington': 0, 'west virginia': 2,
+    'wisconsin': 1, 'wyoming': 0
+}
+# List
+numberToStateRegion = [
+    'west', 'midwest', 'south', 'northeast'
 ]
 
 def validateLocation(location: str) -> str:
