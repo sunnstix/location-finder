@@ -1,3 +1,4 @@
+from matplotlib.pyplot import plot
 from dataloader import DEVICE, TwitterData
 import torch
 from model import model
@@ -5,29 +6,30 @@ from torch.nn import BCELoss
 from utils import *
 import numpy as np
 
-MAX_EPOCHS = 420
+MAX_EPOCHS = 100
+STATE_DICT = None
 
 def count_parameters(model):
     return sum(p.numel() for p in model.parameters() if p.requires_grad)
 
 def computeCorrect(pred,labels):
-    pred = torch.max(pred,1)[1]
-    correct = (torch.round(pred) == labels).float()
-    return correct.sum(), len(labels)
+    correct = (pred == labels).float()
+    return correct.sum().item(), len(labels)
 
 def run_epoch(classifier, input, optimizer, criterion):
-    loss = 0
-
     classifier.train() # enter training mode
     for batch in input:
         optimizer.zero_grad() #clear gradience
 
         text, textSz = batch.text
-        pred = model(text,textSz).squeeze() #get prediction
-        loss += criterion(pred,batch.label).item()
-        
-        loss.backward() #backpropagation optimization and gradient calculation
+        pred = classifier(text,textSz) #get prediction
+        loss = criterion(pred,batch.label)
+        loss.backward()
         optimizer.step()
+        
+
+def extract_pred(log):
+    return torch.max(log,1)[1]
 
 def eval(classifier, criterion, validLoader, trainLoader, epoch, stats, currPatience = None, prevLoss = None):
     def computeMetrics(loader):
@@ -37,8 +39,9 @@ def eval(classifier, criterion, validLoader, trainLoader, epoch, stats, currPati
         with torch.no_grad():
             for batch in loader:
                 text, textSz = batch.text
-                pred = classifier(text,textSz).squeeze() #get prediction
-                running_loss.append(criterion(pred,batch.label).item())
+                out = classifier(text,textSz).squeeze() #get prediction
+                pred = extract_pred(out)
+                running_loss.append(criterion(out,batch.label).item())
                 batchCorrect, batchTotal = computeCorrect(pred,batch.label)
                 correct += batchCorrect
                 total += batchTotal
@@ -53,14 +56,14 @@ def eval(classifier, criterion, validLoader, trainLoader, epoch, stats, currPati
     if stats[-1][3] >= prevLoss:
         return (currPatience + 1, prevLoss)
     else:
-        torch.save(model.state_dict(),config('param_file'))
+        STATE_DICT = classifier.state_dict()
         return (0, stats[-1][3])
 
 def train(classifier, trainLoader, validLoader):
     #cuda optimization of model
     classifier = classifier.to(DEVICE)
-    optimizer = torch.optim.Adam(classifier.parameters())
-    criterion = BCELoss().to(DEVICE)
+    optimizer = torch.optim.Adam(classifier.parameters(),weight_decay=0.02)
+    criterion = torch.nn.CrossEntropyLoss().to(DEVICE)
     plotter = TwitterPlotter('Tweet Location Classifier')
 
     epoch = 0
@@ -68,19 +71,21 @@ def train(classifier, trainLoader, validLoader):
     patience = config('patience')
     currPatience,prevLoss = eval(classifier,criterion,validLoader,trainLoader,epoch,stats)
     plotter.update(epoch,stats)
-
-    while currPatience < patience:
+    while currPatience < patience and epoch < MAX_EPOCHS:
         epoch += 1
         run_epoch(classifier,trainLoader,optimizer,criterion)
         currPatience,prevLoss = eval( classifier,criterion, validLoader, trainLoader, epoch, stats, currPatience, prevLoss )
         plotter.update(epoch,stats)
-        print('Current Patience:', currPatience)
+
+    torch.save(STATE_DICT,config('model.param_file'))
+    plotter.save()
+    plotter.hold()
 
     print('Finished training!')
 
 if __name__ == "__main__":
     data = TwitterData()
-    trainIter, validIter = data.load(True)
+    trainIter, validIter = data.load()
     classifier = model(len(data.txtField.vocab),config('model.embed_dim'),config('model.hidden_nodes'),config('model.output_nodes'),
                         config('model.num_layers'),config('model.dropout'),config('model.bidirection'),data.txtField.vocab.vectors)
 

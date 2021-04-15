@@ -78,16 +78,15 @@ class TwitterPlotter():
         self.axes[0].set_ylabel("Accuracy")
         self.axes[1].set_xlabel("Epoch")
         self.axes[1].set_ylabel("Loss")
-        #self.axes[2].set_xlabel("Epoch")
-        #self.axes[2].set_ylabel("AUROC")
         self.name = name
 
     def update(self, epoch, stats):
         colors = ["r", "b"]
-        for i, metric in enumerate(METRICS):
-            for j, split in enumerate(SPLITS):
+        for i in range(len(METRICS)):
+            for j in range(len(SPLITS)):
                 idx = len(METRICS) * j + i
                 if idx >= len(stats[-1]):
+                    print('skipping')
                     continue
                 self.axes[i].plot(
                     range(epoch - len(stats) + 1, epoch + 1),
@@ -101,6 +100,10 @@ class TwitterPlotter():
 
     def save(self):
         plt.savefig("{}.png".format(self.name), dpi=200)
+
+    def hold(self):
+        plt.ioff()
+        plt.show()
 
 def logger(epoch, stats):
     """Print the train, validation, test accuracy/loss/auroc.

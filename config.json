@@ -6,7 +6,7 @@
     "model": {
         "embed_dim": 100,
         "hidden_nodes": 32,
-        "output_nodes": 1,
+        "output_nodes": 2,
         "num_layers": 2,
         "bidirection": 1,
         "dropout": 0.2,

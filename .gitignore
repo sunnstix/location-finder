@@ -3,3 +3,5 @@ __pycache__/
 .vector_cache
 *.pyc
 *.pyo
+quora*
+.DS_Store
