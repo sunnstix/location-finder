@@ -1,21 +1,23 @@
 from model import model
-from dataloader import load, TXT, LBL, DEVICE
+from dataloader import  DEVICE, TOKENIZER, load_vocab
 from utils import *
 from torch import LongTensor
-import spacy
-from code import GLOBAL_THING, transform_function
+import torch
+from train import extract_pred
 
-NLP = spacy.load('en')
+VOCAB = load_vocab(config('dumpster.vocab'))
 
 def predict(classifier,txt):
-    indices = [TXT.vocab.stoi[token.text] for token in NLP.tokenizer(txt)]
+    indices = [VOCAB.stoi[token] for token in TOKENIZER(txt)]
     tensor =LongTensor(indices).to(DEVICE)
     pred = classifier(tensor.unsqueeze(1).T,LongTensor([len(indices)]))
-    return pred.item()
+    return extract_pred(pred).item()
 
 if __name__ == '__main__':
-    classifier = model(len(TXT.vocab),config('model.embed_dim'),config('model.hidden_nodes'),config('model.output_nodes'),
-                        config('model.num_layers'),config('model.dropout'),config('model.bidirection'),TXT.vocab.vectors)
+    classifier = model(len(VOCAB),config('model.embed_dim'),config('model.hidden_nodes'),config('model.output_nodes'),
+                        config('model.num_layers'),config('model.dropout'),config('model.bidirection'),VOCAB.vectors)
+    classifier.load_state_dict(torch.load(config('model.param_file')))
+    classifier.eval()
 
     with open('test_input.txt','r') as input:
         for idx,line in enumerate(input.readlines()):

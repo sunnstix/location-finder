@@ -7,7 +7,6 @@ from utils import *
 import numpy as np
 
 MAX_EPOCHS = 100
-STATE_DICT = None
 
 def count_parameters(model):
     return sum(p.numel() for p in model.parameters() if p.requires_grad)
@@ -31,7 +30,7 @@ def run_epoch(classifier, input, optimizer, criterion):
 def extract_pred(log):
     return torch.max(log,1)[1]
 
-def eval(classifier, criterion, validLoader, trainLoader, epoch, stats, currPatience = None, prevLoss = None):
+def eval(classifier, criterion, validLoader, trainLoader, epoch, stats, currPatience = None, prevLoss = None, state_dict= None):
     def computeMetrics(loader):
         correct, total = 0,0
         running_loss = []
@@ -52,12 +51,11 @@ def eval(classifier, criterion, validLoader, trainLoader, epoch, stats, currPati
     valid_acc, valid_loss = computeMetrics(validLoader)
     stats.append([train_acc,train_loss, valid_acc, valid_loss])
     logger(epoch,stats)
-    if prevLoss is None: return (0, stats[-1][3])
+    if prevLoss is None: return (0, stats[-1][3], None)
     if stats[-1][3] >= prevLoss:
-        return (currPatience + 1, prevLoss)
+        return (currPatience + 1, prevLoss, state_dict)
     else:
-        STATE_DICT = classifier.state_dict()
-        return (0, stats[-1][3])
+        return (0, stats[-1][3], classifier.state_dict())
 
 def train(classifier, trainLoader, validLoader):
     #cuda optimization of model
@@ -69,15 +67,15 @@ def train(classifier, trainLoader, validLoader):
     epoch = 0
     stats = []
     patience = config('patience')
-    currPatience,prevLoss = eval(classifier,criterion,validLoader,trainLoader,epoch,stats)
+    currPatience,prevLoss,state_dict = eval(classifier,criterion,validLoader,trainLoader,epoch,stats)
     plotter.update(epoch,stats)
     while currPatience < patience and epoch < MAX_EPOCHS:
         epoch += 1
         run_epoch(classifier,trainLoader,optimizer,criterion)
-        currPatience,prevLoss = eval( classifier,criterion, validLoader, trainLoader, epoch, stats, currPatience, prevLoss )
+        currPatience,prevLoss,state_dict = eval( classifier,criterion, validLoader, trainLoader, epoch, stats, currPatience, prevLoss )
         plotter.update(epoch,stats)
 
-    torch.save(STATE_DICT,config('model.param_file'))
+    torch.save(state_dict,config('model.param_file'))
     plotter.save()
     plotter.hold()
 

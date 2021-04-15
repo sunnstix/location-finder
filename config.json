@@ -1,15 +1,19 @@
 {
-    "json_file": "data.json",
-    "csv_file": "test.csv",
+    "csv_file": "dataset_dump/mydata.csv",
     "batch_size": 64,
     "patience": 5,
     "model": {
         "embed_dim": 100,
         "hidden_nodes": 32,
-        "output_nodes": 2,
+        "output_nodes": 50,
         "num_layers": 2,
         "bidirection": 1,
         "dropout": 0.2,
-        "param_file": "model_params.pt"
+        "param_file": "dataset_dump/model_params.pt"
+    },
+    "dumpster": {
+        "vocab": "dataset_dump/vocab",
+        "trainData": "dataset_dump/trainData/",
+        "validData": "dataset_dump/validData/"
     }
 }
