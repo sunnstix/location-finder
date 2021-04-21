@@ -5,8 +5,8 @@
     "model": {
         "embed_dim": 100,
         "hidden_nodes": 32,
-        "output_nodes": 50,
-        "num_layers": 2,
+        "output_nodes": 51,
+        "num_layers": 3,
         "bidirection": 1,
         "dropout": 0.2,
         "param_file": "dataset_dump/model_params.pt"
