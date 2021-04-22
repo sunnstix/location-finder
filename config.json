@@ -15,5 +15,6 @@
         "vocab": "dataset_dump/vocab",
         "trainData": "dataset_dump/trainData/",
         "validData": "dataset_dump/validData/"
-    }
+    },
+    "raw_data": "raw_data/twitter-data.csv"
 }

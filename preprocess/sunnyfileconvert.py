@@ -1,9 +1,6 @@
-import os
-import sys
-from geopy.geocoders import Nominatim
+from utils import *
 import csv  # https://realpython.com/python-csv/
-import json # https://stackabuse.com/reading-and-writing-json-to-a-file-in-python/
-import re # to remove non-alphanumerics from strings
+
 # USAGE: python3 ./csv-to-json.py <valid csv file>
 # for us: python3 ./csv-to-json.py twitter-data.csv
 
@@ -35,7 +32,6 @@ import re # to remove non-alphanumerics from strings
 #   There are 25,000 lines in the csv file. By running this, I was able to
 #   identify 20,000 lines by location.  These are more than enough to train
 #   and test our program.
-geolocator = Nominatim(user_agent="locatingthing")
 # globals
 states = ['alabama', 'alaska', 'arizona',
           'arkansas', 'california', 'colorado',
@@ -95,8 +91,9 @@ stateToNumber = {
 }
 # List
 numberToState = [
+    'california',
     'alabama', 'alaska', 'arizona',
-    'arkansas', 'california', 'colorado',
+    'arkansas',  'colorado',
     'conneticut', 'delaware', 'florida',
     'georgia', 'hiwaii', 'idaho',
     'illinois', 'indiana', 'iowa',
@@ -208,7 +205,7 @@ def validateLocation(location: str) -> str:
             return token
     return validLocation
 
-def main():
+def regen():
     """MAIN"""
     # vars for csv
     number = -1
@@ -223,7 +220,7 @@ def main():
     # tempTweet = {"number": number, "description": desc, "text": text, "location": refinedLocation}
 
     # process csv
-    with open ("twitter-data.csv", encoding='utf-8', errors='ignore') as csv_file, open('dataset_dump/mydata.csv',mode='w') as outputFile:
+    with open ("raw_data/twitter-data.csv", encoding='utf-8', errors='ignore') as csv_file, open(config(''),mode='w') as outputFile:
         csv_data = csv.reader(csv_file, delimiter=",")
         outWrite = csv.writer(outputFile,delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
         outWrite.writerow(['text','location'])
@@ -249,4 +246,4 @@ def main():
             lineCount += 1
             
 if __name__ == "__main__":
-    main()
+    regen()

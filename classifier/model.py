@@ -1,6 +1,5 @@
 from torch import nn
 from torch.nn.utils import rnn
-from torch import cat
 
 class model(nn.Module):
 

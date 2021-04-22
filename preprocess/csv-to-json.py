@@ -2,7 +2,6 @@ import os
 import sys
 import csv  # https://realpython.com/python-csv/
 import json # https://stackabuse.com/reading-and-writing-json-to-a-file-in-python/
-import re # to remove non-alphanumerics from strings
 # USAGE: python3 ./csv-to-json.py <valid csv file>
 # for us: python3 ./csv-to-json.py twitter-data.csv
 
